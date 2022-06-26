@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "electron-reload": "^1.5.0",
+    "node-sysutil": "^1.1.6",
     "v8-compile-cache": "^2.3.0"
   }
 }
