@@ -8,8 +8,7 @@ const createWindow = () => {
     height: 250,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
-      preload: path.join(__dirname, 'update.js')
+      enableRemoteModule: true
     }
   });
   mainWindow.loadFile(path.join(__dirname, './assets/html/index.html'));
