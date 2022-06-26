@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Driver Fetch</title>
+  <link rel="stylesheet" href="../css/index.css" />
+  <script src="../../renderer.js"></script>
+</head>
+
+<body id="body">
+  <div class="content">
+    <div class="centered">
+      <input type="checkbox" name="checkbox" /><label>Manual Override</label>
+    </div>
+    <div class="centered" id="status">
+      <div>Ready</div>
+    </div>
+    <div class="centered" id="progressBar"></div>
+    <div class="centered">
+      <select class="selectors" id="manufacturers" disabled="true">
+        <option value="MSI">MSI</option>
+        <option value="ASUS">ASUS</option>
+        <option value="AORUS">AORUS</option>
+        <option value="ASROCK">ASROCK</option>
+      </select>
+      <select class="selectors" id="processors" disabled="true">
+        <option value="Intel">Intel</option>
+        <option value="AMD">AMD</option>
+      </select>
+      <input id="motherboard" placeholder="Motherboard" disabled="true"></input>
+    </div>
+    <div id="downloads"></div>
+    <div class="centered">
+      <button id="startbutton" onClick=start()>Start</button>
+    </div>
+  </div>
+</body>
+
+</html>

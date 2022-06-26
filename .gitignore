@@ -1,0 +1,18 @@
+# Logs
+*.log
+electron-builder.yml
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+drivers/
+dist/
+driver-fetch-win32-x64/
+test/
+
+# dotenv environment variables file
+.env
+.env.test
