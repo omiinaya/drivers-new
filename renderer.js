@@ -5,8 +5,8 @@ const ipc = electron.ipcRenderer
 document.addEventListener("DOMContentLoaded", function (event) {
   console.log('loaded.')
   ipc.send("MAIN_REQUEST")
-  test2()
-  test3()
+  urlsMSI()
+  urlsASROCK()
 });
 
 ipc.on('LOG_REQUEST', (evt, data) => {
@@ -61,24 +61,35 @@ function getASROCK() {
   });
 }
 
-async function test2() {
-  let x = await getMSI()
-  let y = x.result.downloads
-  console.log(y)
+async function urlsMSI() {
+  const data = await getMSI()
+  const categories = data.result.downloads
+  let result = {};
+  for (let category in categories) {
+    if (category === "os" || category === "type_title") continue;
+    let drivers = categories[category]
+    for (let driver in drivers) {
+      const title = drivers[driver].download_title
+      const url = drivers[driver].download_url
+      result[title] = url;
+    }
+  }
+  console.log(result)
+  return result
 }
 
-async function test3() {
-  let doc = await getASROCK();
-  let table = doc.querySelectorAll('table');
-  let elements = table[0].children[1].children;
-  let drivers = [];
+async function urlsASROCK() {
+  const doc = await getASROCK();
+  const table = doc.querySelectorAll('table');
+  const elements = table[0].children[1].children;
+
+  let result = {};
   for (element of elements) {
-    drivers.push(element.innerHTML);
-    let data = element.querySelectorAll("td")
-    let title = data[0].innerHTML //driver titles
-    let link = data[data.length - 2].querySelectorAll("a")[0].getAttribute('href') //-2 for USA, -1 for china
-    console.log(title)
-    console.log(link)
+    const data = element.querySelectorAll("td")
+    const title = data[0].innerText //driver titles
+    const url = data[data.length - 2].querySelectorAll("a")[0].getAttribute('href') //-2 for USA, -1 for china
+    result[title] = url;
   }
-  //console.log(drivers);
+  console.log(result)
+  return result;
 }
