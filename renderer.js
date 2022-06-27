@@ -6,13 +6,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
   console.log('loaded.')
   ipc.send("MAIN_REQUEST")
   test2()
+  test3()
 });
 
 ipc.on('LOG_REQUEST', (evt, data) => {
   console.log(data)
 });
 
-function test() {
+function getMSI() {
+  //MSI returns a JSON object which includes download URLs. No further parsing needed.
   return new Promise(function (resolve, reject) {
     let url = "https://us.msi.com/api/v1/product/support/panel?product=MEG-Z590-GODLIKE&type=driver";
     let xhr = new XMLHttpRequest();
@@ -34,7 +36,44 @@ function test() {
   });
 }
 
+
+function getASROCK() {
+  //ASROCK API returns an HTML file with the download URLs imbedded. Will need to parse out links.
+  return new Promise(function (resolve, reject) {
+    let url = "https://www.asrock.com/mb/Intel/Z590%20OC%20Formula/Download.html";
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.open('get', url, true);
+    xhr.setRequestHeader("Accept", "text/html, */*; q=0.01");
+    xhr.setRequestHeader("Accept-Language", "en-US,en;q=0.9");
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+    xhr.responseType = 'document';
+    xhr.onload = function () {
+      var status = xhr.status;
+      if (status == 200) {
+        resolve(xhr.response);
+      } else {
+        reject(status);
+      }
+    };
+    xhr.send();
+  });
+}
+
 async function test2() {
-  let x = await test()
-  console.log(x)
+  let x = await getMSI()
+  let y = x.result.downloads
+  console.log(y)
+}
+
+async function test3() {
+  let doc = await getASROCK();
+  let table = doc.querySelectorAll('table');
+  let elements = table[0].children[1].children;
+  let drivers = [];
+  for (element of elements) {
+    drivers.push(element.innerHTML);
+  }
+  console.log(drivers);
 }
