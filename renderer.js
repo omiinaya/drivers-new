@@ -74,6 +74,11 @@ async function test3() {
   let drivers = [];
   for (element of elements) {
     drivers.push(element.innerHTML);
+    let data = element.querySelectorAll("td")
+    let title = data[0].innerHTML //driver titles
+    let link = data[data.length - 2].querySelectorAll("a")[0].getAttribute('href') //-2 for USA, -1 for china
+    console.log(title)
+    console.log(link)
   }
-  console.log(drivers);
+  //console.log(drivers);
 }
